@@ -1,3 +1,4 @@
+console.log("RAILWAY DEBUG — TOKEN:", !!process.env.TOKEN, "CLIENT_ID:", !!process.env.CLIENT_ID, "GUILD_ID:", !!process.env.GUILD_ID);
 // index.js - patched ticket bot (base: version B, patched close flow + safe debug)
 require('dotenv').config();
 
