@@ -1,0 +1,14 @@
+# node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# environment
+.env
+
+# tickets / local storage (optional)
+tickets.json
+
+# editor / os junk
+.vscode/
+.DS_Store
