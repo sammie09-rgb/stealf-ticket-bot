@@ -128,8 +128,37 @@ client.on('interactionCreate', async interaction => {
           .setColor(0x0f0f0f)
           .setFooter({ text: 'stealf support', iconURL: FOOTER_ICON_URL || undefined });
 
-        const thumb = normalizeThumbUrl(THUMB_URL_RAW);
-        if (thumb) embed.setThumbnail(thumb);
+        // --- thumbnail handling (bulletproof version) ---
+const thumbRaw = process.env.THUMB_URL;
+let thumbUrl = null;
+
+if (thumbRaw && typeof thumbRaw === 'string') {
+  const trimmed = thumbRaw.trim();
+
+  // must start with http or https
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    thumbUrl = trimmed;
+
+  } else if (trimmed.startsWith('//')) {
+    // protocol-relative → force https
+    thumbUrl = `https:${trimmed}`;
+  }
+
+  // debug
+  console.log("parsed thumbnail URL =", thumbUrl);
+}
+
+// apply only if valid url
+if (thumbUrl) {
+  try {
+    embed.setThumbnail(thumbUrl);
+    console.log("thumbnail applied");
+  } catch (err) {
+    console.log("thumbnail failed:", err);
+  }
+} else {
+  console.log("no valid thumbnail URL detected");
+}
 
         // row with three buttons: Support, Partnerships, Bug Reports
         const row = new ActionRowBuilder().addComponents(
